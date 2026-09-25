@@ -1,0 +1,1080 @@
+<div class="coordinator-layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+    <aside class="coordinator-sidebar">
+
+        <div class="coordinator-brand">
+
+            <div class="coordinator-logo">
+                TCE
+            </div>
+
+            <div>
+                <h5>TCE EventSphere</h5>
+                <small>Event Coordinator</small>
+            </div>
+
+        </div>
+
+
+        <div class="coordinator-user">
+
+            <div class="coordinator-avatar">
+                {{ user.name.charAt(0) }}
+            </div>
+
+            <div>
+                <strong>{{ user.name }}</strong>
+                <small>Coordinator</small>
+            </div>
+
+        </div>
+
+
+        <nav class="coordinator-nav">
+
+            <a href="#!/coordinator/dashboard">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                href="#!/coordinator/create-event"
+                class="active"
+            >
+                <i class="fa-solid fa-calendar-plus"></i>
+                <span>Create Event</span>
+            </a>
+
+            <a href="#!/coordinator/manage-events">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Manage Events</span>
+            </a>
+
+            <a href="#!/coordinator/participants">
+                <i class="fa-solid fa-users"></i>
+                <span>Participants</span>
+            </a>
+
+            <a href="#!/coordinator/profile">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+
+        <div class="coordinator-sidebar-bottom">
+
+            <button
+                type="button"
+                ng-click="logout()"
+            >
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+    <main class="coordinator-main">
+
+
+        <!-- TOPBAR -->
+        <header class="coordinator-topbar">
+
+            <div>
+
+                <h4>Create Event</h4>
+
+                <p>
+                    Publish a new TCE event
+                </p>
+
+            </div>
+
+
+            <div class="coordinator-top-user">
+
+                <div class="coordinator-top-avatar">
+                    {{ user.name.charAt(0) }}
+                </div>
+
+                <span>
+                    {{ user.name }}
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             PAGE CONTENT
+        ========================== -->
+        <section class="coordinator-content create-event-page">
+
+
+            <!-- PAGE HEADER -->
+            <div class="create-event-header">
+
+                <button
+                    type="button"
+                    class="create-back-button"
+                    ng-click="goBack()"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+
+
+                <div class="create-event-heading">
+
+                    <span class="create-event-eyebrow">
+                        EVENT PUBLISHING
+                    </span>
+
+                    <h1>
+                        Create New Event
+                    </h1>
+
+                    <p>
+                        Add the details below to publish
+                        an event for TCE students.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUCCESS MESSAGE -->
+            <div
+                class="create-event-alert success"
+                ng-if="success"
+            >
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span>
+                    {{ success }}
+                </span>
+
+                <button
+                    type="button"
+                    ng-click="success = ''"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <!-- ERROR MESSAGE -->
+            <div
+                class="create-event-alert error"
+                ng-if="error"
+            >
+
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                <span>
+                    {{ error }}
+                </span>
+
+                <button
+                    type="button"
+                    ng-click="error = ''"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <!-- =========================
+                 FORM
+            ========================== -->
+            <form
+                name="eventForm"
+                class="create-event-form"
+                ng-submit="submitEvent(eventForm)"
+                novalidate
+            >
+
+
+                <!-- =========================
+                     BASIC DETAILS
+                ========================== -->
+                <div class="create-form-card">
+
+                    <div class="create-form-title">
+
+                        <div class="create-form-icon">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+
+                        <div>
+                            <h2>Basic Event Details</h2>
+
+                            <p>
+                                Enter the main information about
+                                your event.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-4">
+
+
+                        <!-- TITLE -->
+                        <div class="col-12">
+
+                            <label>
+                                Event Title
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control create-input"
+                                name="title"
+                                ng-model="event.title"
+                                placeholder="e.g. National Level Hackathon 2026"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- CLUB -->
+                        <div class="col-md-6">
+
+                            <label>
+                                Club / Organizing Body
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control create-input"
+                                name="clubName"
+                                ng-model="event.clubName"
+                                placeholder="e.g. Coding Club"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- CATEGORY -->
+                        <div class="col-md-6">
+
+                            <label>
+                                Category
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                class="form-select create-input"
+                                name="category"
+                                ng-model="event.category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option
+                                    ng-repeat="category in categories"
+                                    value="{{ category }}"
+                                >
+                                    {{ category }}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+                        <div class="col-12">
+
+                            <label>
+                                Description
+                                <span>*</span>
+                            </label>
+
+                            <textarea
+                                class="form-control create-input create-textarea"
+                                name="description"
+                                ng-model="event.description"
+                                rows="5"
+                                placeholder="Describe the event, activities, eligibility and other important information..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <!-- VENUE -->
+                        <div class="col-md-6">
+
+                            <label>
+                                Venue
+                                <span>*</span>
+                            </label>
+
+                            <div class="create-input-icon">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                <input
+                                    type="text"
+                                    class="form-control create-input"
+                                    name="venue"
+                                    ng-model="event.venue"
+                                    placeholder="e.g. Main Auditorium"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DEPARTMENT -->
+                        <div class="col-md-6">
+
+                            <label>
+                                Department
+                            </label>
+
+                            <div class="department-display">
+
+                                <i class="fa-solid fa-building"></i>
+
+                                <span>
+                                    {{ user.department }}
+                                </span>
+
+                            </div>
+
+                            <small class="create-help">
+                                Automatically assigned from your
+                                coordinator account.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     EVENT SCHEDULE
+                ========================== -->
+                <div class="create-form-card">
+
+                    <div class="create-form-title">
+
+                        <div class="create-form-icon">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+
+                        <div>
+                            <h2>Event Schedule</h2>
+
+                            <p>
+                                Set when your event will happen.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-4">
+
+
+                        <!-- EVENT DATE -->
+                        <div class="col-md-6">
+
+                            <label>
+                                Event Date
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                class="form-control create-input"
+                                name="eventDate"
+                                ng-model="event.eventDate"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- EVENT TIME -->
+                        <div class="col-md-6">
+
+                            <label>
+                                Event Time
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="time"
+                                class="form-control create-input"
+                                name="eventTime"
+                                ng-model="event.eventTime"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     REGISTRATION PERIOD
+                ========================== -->
+                <div class="create-form-card">
+
+                    <div class="create-form-title">
+
+                        <div class="create-form-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+
+                        <div>
+                            <h2>Registration Period</h2>
+
+                            <p>
+                                Define when students can register.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-4">
+
+
+                        <div class="col-md-6">
+
+                            <label>
+                                Registration Start Date
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                class="form-control create-input"
+                                name="regStartDate"
+                                ng-model="event.regStartDate"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label>
+                                Registration Start Time
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="time"
+                                class="form-control create-input"
+                                name="regStartTime"
+                                ng-model="event.regStartTime"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label>
+                                Registration End Date
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                class="form-control create-input"
+                                name="regEndDate"
+                                ng-model="event.regEndDate"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label>
+                                Registration End Time
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="time"
+                                class="form-control create-input"
+                                name="regEndTime"
+                                ng-model="event.regEndTime"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     REGISTRATION CAPACITY
+                ========================== -->
+                <div class="create-form-card">
+
+                    <div class="create-form-title">
+
+                        <div class="create-form-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+
+                        <div>
+                            <h2>Registration Capacity</h2>
+
+                            <p>
+                                Configure the number of participants.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="selection-grid">
+
+
+                        <!-- LIMITED -->
+                        <div
+                            class="selection-card"
+                            ng-class="{
+                                selected: !event.unlimitedSeats
+                            }"
+                            ng-click="event.unlimitedSeats = false"
+                        >
+
+                            <div class="selection-radio">
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="
+                                        event.unlimitedSeats
+                                        ? 'fa-circle'
+                                        : 'fa-circle-check'
+                                    "
+                                ></i>
+
+                            </div>
+
+                            <div class="selection-content">
+
+                                <strong>
+                                    Limited Seats
+                                </strong>
+
+                                <small>
+                                    Set a maximum number of participants.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- UNLIMITED -->
+                        <div
+                            class="selection-card"
+                            ng-class="{
+                                selected: event.unlimitedSeats
+                            }"
+                            ng-click="toggleUnlimitedSeats()"
+                        >
+
+                            <div class="selection-radio">
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="
+                                        event.unlimitedSeats
+                                        ? 'fa-circle-check'
+                                        : 'fa-circle'
+                                    "
+                                ></i>
+
+                            </div>
+
+                            <div class="selection-content">
+
+                                <strong>
+                                    Unlimited Seats
+                                </strong>
+
+                                <small>
+                                    Allow unlimited registrations.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MAX SEATS -->
+                    <div
+                        class="capacity-input"
+                        ng-if="!event.unlimitedSeats"
+                    >
+
+                        <label>
+                            Maximum Seats
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control create-input"
+                            name="maxSeats"
+                            ng-model="event.maxSeats"
+                            min="1"
+                            placeholder="e.g. 100"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     REGISTRATION METHOD
+                ========================== -->
+                <div class="create-form-card">
+
+                    <div class="create-form-title">
+
+                        <div class="create-form-icon">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+
+                        <div>
+                            <h2>Registration Method</h2>
+
+                            <p>
+                                Choose how students will register.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="selection-grid">
+
+
+                        <!-- BUILT-IN -->
+                        <div
+                            class="selection-card registration-card"
+                            ng-class="{
+                                selected:
+                                    event.registrationType === 'built-in'
+                            }"
+                            ng-click="setRegistrationType('built-in')"
+                        >
+
+                            <div class="selection-radio">
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="
+                                        event.registrationType === 'built-in'
+                                        ? 'fa-circle-check'
+                                        : 'fa-circle'
+                                    "
+                                ></i>
+
+                            </div>
+
+                            <div class="selection-icon">
+                                <i class="fa-solid fa-user-plus"></i>
+                            </div>
+
+                            <div class="selection-content">
+
+                                <strong>
+                                    Built-in Registration
+                                </strong>
+
+                                <small>
+                                    Students register directly
+                                    through EventSphere.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- EXTERNAL -->
+                        <div
+                            class="selection-card registration-card"
+                            ng-class="{
+                                selected:
+                                    event.registrationType === 'external'
+                            }"
+                            ng-click="setRegistrationType('external')"
+                        >
+
+                            <div class="selection-radio">
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="
+                                        event.registrationType === 'external'
+                                        ? 'fa-circle-check'
+                                        : 'fa-circle'
+                                    "
+                                ></i>
+
+                            </div>
+
+                            <div class="selection-icon">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </div>
+
+                            <div class="selection-content">
+
+                                <strong>
+                                    External Registration
+                                </strong>
+
+                                <small>
+                                    Redirect students to an
+                                    external registration form.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EXTERNAL LINK -->
+                    <div
+                        class="conditional-input"
+                        ng-if="event.registrationType === 'external'"
+                    >
+
+                        <label>
+                            Registration Link
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="url"
+                            class="form-control create-input"
+                            name="registrationLink"
+                            ng-model="event.registrationLink"
+                            placeholder="https://forms.google.com/..."
+                        >
+
+                        <small class="create-help">
+                            Students will be redirected to this
+                            registration form.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     EVENT VISIBILITY
+                ========================== -->
+                <div class="create-form-card">
+
+                    <div class="create-form-title">
+
+                        <div class="create-form-icon">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+
+                        <div>
+                            <h2>Event Visibility</h2>
+
+                            <p>
+                                Decide who can see this event.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="selection-grid">
+
+
+                        <!-- DEPARTMENT ONLY -->
+                        <div
+                            class="selection-card visibility-card"
+                            ng-class="{
+                                selected:
+                                    event.visibility === 'DepartmentOnly'
+                            }"
+                            ng-click="
+                                event.visibility = 'DepartmentOnly'
+                            "
+                        >
+
+                            <div class="selection-radio">
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="
+                                        event.visibility === 'DepartmentOnly'
+                                        ? 'fa-circle-check'
+                                        : 'fa-circle'
+                                    "
+                                ></i>
+
+                            </div>
+
+                            <div class="selection-icon">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+
+                            <div class="selection-content">
+
+                                <strong>
+                                    Department Only
+                                </strong>
+
+                                <small>
+                                    Visible to students from
+                                    {{ user.department }}.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COLLEGE WIDE -->
+                        <div
+                            class="selection-card visibility-card"
+                            ng-class="{
+                                selected:
+                                    event.visibility === 'CollegeWide'
+                            }"
+                            ng-click="
+                                event.visibility = 'CollegeWide'
+                            "
+                        >
+
+                            <div class="selection-radio">
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="
+                                        event.visibility === 'CollegeWide'
+                                        ? 'fa-circle-check'
+                                        : 'fa-circle'
+                                    "
+                                ></i>
+
+                            </div>
+
+                            <div class="selection-icon">
+                                <i class="fa-solid fa-globe"></i>
+                            </div>
+
+                            <div class="selection-content">
+
+                                <strong>
+                                    College Wide
+                                </strong>
+
+                                <small>
+                                    Visible to students across TCE.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     POSTER
+                ========================== -->
+                <div class="create-form-card">
+
+                    <div class="create-form-title">
+
+                        <div class="create-form-icon">
+                            <i class="fa-solid fa-image"></i>
+                        </div>
+
+                        <div>
+                            <h2>Event Poster</h2>
+
+                            <p>
+                                Add a poster URL for your event.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- POSTER TYPE -->
+                    <div class="poster-type-selection">
+
+                        <button
+                            type="button"
+                            class="poster-type-button"
+                            ng-class="{
+                                active:
+                                    event.posterType === 'image'
+                            }"
+                            ng-click="setPosterType('image')"
+                        >
+
+                            <i class="fa-solid fa-image"></i>
+
+                            <span>Image</span>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="poster-type-button"
+                            ng-class="{
+                                active:
+                                    event.posterType === 'pdf'
+                            }"
+                            ng-click="setPosterType('pdf')"
+                        >
+
+                            <i class="fa-solid fa-file-pdf"></i>
+
+                            <span>PDF</span>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="poster-input-area">
+
+                        <label>
+                            Poster URL
+                        </label>
+
+                        <input
+                            type="url"
+                            class="form-control create-input"
+                            ng-model="event.posterURL"
+                            placeholder="https://example.com/event-poster.jpg"
+                        >
+
+                        <small class="create-help">
+                            You can add a hosted image/PDF URL.
+                            File upload will be integrated in the
+                            later poster/OD upload stage.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     ACTIONS
+                ========================== -->
+                <div class="create-form-actions">
+
+                    <button
+                        type="button"
+                        class="btn-create-clear"
+                        ng-click="resetForm()"
+                        ng-disabled="submitting"
+                    >
+
+                        <i class="fa-solid fa-rotate-left"></i>
+
+                        Clear
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn-create-submit"
+                        ng-disabled="submitting"
+                    >
+
+                        <span ng-if="!submitting">
+
+                            <i class="fa-solid fa-paper-plane"></i>
+
+                            Publish Event
+
+                        </span>
+
+
+                        <span ng-if="submitting">
+
+                            <span
+                                class="spinner-border spinner-border-sm"
+                            ></span>
+
+                            Publishing...
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>

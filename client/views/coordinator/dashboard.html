@@ -1,0 +1,685 @@
+<div class="coordinator-layout">
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="coordinator-sidebar">
+
+        <!-- BRAND -->
+        <div class="coordinator-brand">
+
+            <div class="coordinator-logo">
+                TCE
+            </div>
+
+            <div>
+                <h5>TCE EventSphere</h5>
+                <small>Event Coordinator</small>
+            </div>
+
+        </div>
+
+
+        <!-- USER -->
+        <div class="coordinator-user">
+
+            <div class="coordinator-avatar">
+                {{ user.name ? user.name.charAt(0).toUpperCase() : 'C' }}
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ user.name || 'Coordinator' }}
+                </strong>
+
+                <small>
+                    Coordinator
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <nav class="coordinator-nav">
+
+            <!-- Dashboard -->
+            <a href="#!/coordinator/dashboard">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- Create Event -->
+            <a href="#!/coordinator/create-event">
+
+                <i class="fa-solid fa-calendar-plus"></i>
+
+                <span>
+                    Create Event
+                </span>
+
+            </a>
+
+
+            <!-- Manage Events -->
+            <a href="#!/coordinator/manage-events">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <span>
+                    Manage Events
+                </span>
+
+            </a>
+
+
+            <!-- Participants -->
+            <a href="#!/coordinator/participants">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    Participants
+                </span>
+
+            </a>
+
+
+            <!-- Profile -->
+            <a href="#!/coordinator/profile">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>
+                    Profile
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- LOGOUT -->
+        <div class="coordinator-sidebar-bottom">
+
+            <button
+                type="button"
+                ng-click="logout()"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         MAIN
+    ================================================== -->
+
+    <main class="coordinator-main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="coordinator-topbar">
+
+            <div>
+
+                <h4>
+                    Coordinator Dashboard
+                </h4>
+
+                <p>
+                    {{ user.department || 'Information Technology' }}
+                </p>
+
+            </div>
+
+
+            <!-- CLICKABLE PROFILE -->
+            <a
+                href="#!/coordinator/profile"
+                class="coordinator-top-user"
+                style="text-decoration: none; color: inherit; cursor: pointer;"
+            >
+
+                <div class="coordinator-top-avatar">
+
+                    {{ user.name ? user.name.charAt(0).toUpperCase() : 'C' }}
+
+                </div>
+
+                <span>
+                    {{ user.name || 'Coordinator' }}
+                </span>
+
+            </a>
+
+        </header>
+
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <section class="coordinator-content">
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <div
+                class="coordinator-welcome"
+                data-aos="fade-up"
+            >
+
+                <div>
+
+                    <span>
+                        EVENT COORDINATOR
+                    </span>
+
+                    <h1>
+
+                        Manage your
+
+                        <strong>
+                            TCE events
+                        </strong>
+
+                    </h1>
+
+                    <p>
+                        Create, manage and monitor
+                        college events from one place.
+                    </p>
+
+
+                    <a
+                        href="#!/coordinator/create-event"
+                        class="coordinator-create-button"
+                        style="text-decoration: none;"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Create New Event
+
+                    </a>
+
+                </div>
+
+
+                <div class="coordinator-welcome-icon">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ERROR -->
+
+            <div
+                class="alert alert-danger mt-4"
+                ng-if="error"
+            >
+
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                {{ error }}
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STATS
+            ================================================== -->
+
+            <div
+                class="coordinator-stats"
+                ng-if="!loading"
+            >
+
+
+                <!-- TOTAL EVENTS -->
+
+                <div class="coordinator-stat-card">
+
+                    <div class="coordinator-stat-icon">
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Events
+                        </span>
+
+                        <strong>
+                            {{ stats.totalEvents || 0 }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- UPCOMING -->
+
+                <div class="coordinator-stat-card">
+
+                    <div class="coordinator-stat-icon">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Upcoming Events
+                        </span>
+
+                        <strong>
+                            {{ stats.upcomingEvents || 0 }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PARTICIPANTS -->
+
+                <div class="coordinator-stat-card">
+
+                    <div class="coordinator-stat-icon">
+
+                        <i class="fa-solid fa-users"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Participants
+                        </span>
+
+                        <strong>
+                            {{ stats.totalParticipants || 0 }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CATEGORIES -->
+
+                <div class="coordinator-stat-card">
+
+                    <div class="coordinator-stat-icon">
+
+                        <i class="fa-solid fa-layer-group"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Categories
+                        </span>
+
+                        <strong>
+                            {{ stats.categories.length || 0 }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RECENT EVENTS
+            ================================================== -->
+
+            <div
+                class="coordinator-section"
+                data-aos="fade-up"
+            >
+
+                <div class="coordinator-section-heading">
+
+                    <div>
+
+                        <span>
+                            EVENT MANAGEMENT
+                        </span>
+
+                        <h2>
+                            Recent Events
+                        </h2>
+
+                    </div>
+
+
+                    <a href="#!/coordinator/manage-events">
+
+                        View All
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- LOADING -->
+
+                <div
+                    class="coordinator-loading"
+                    ng-if="loading"
+                >
+
+                    <div class="spinner-border"></div>
+
+                    <p>
+                        Loading dashboard...
+                    </p>
+
+                </div>
+
+
+
+                <!-- EVENTS -->
+
+                <div
+                    class="coordinator-event-grid"
+                    ng-if="!loading && events.length > 0"
+                >
+
+                    <div
+                        class="coordinator-event-card"
+                        ng-repeat="event in events"
+                    >
+
+                        <div class="coordinator-event-top">
+
+                            <span>
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="getCategoryIcon(event.category)"
+                                ></i>
+
+                                {{ event.category }}
+
+                            </span>
+
+
+                            <span>
+
+                                {{
+                                    event.visibility === 'CollegeWide'
+                                    ? 'College Wide'
+                                    : 'Department'
+                                }}
+
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            {{ event.title }}
+                        </h3>
+
+
+                        <p>
+                            {{ event.clubName }}
+                        </p>
+
+
+                        <div class="coordinator-event-meta">
+
+                            <div>
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                                {{ event.eventDate | date:'dd MMM yyyy' }}
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                {{ event.venue }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="coordinator-event-seats">
+
+                            <span>
+                                Registrations
+                            </span>
+
+                            <strong>
+
+                                {{ event.registeredSeats || 0 }}
+
+                                <span ng-if="!event.unlimitedSeats">
+
+                                    / {{ event.maxSeats }}
+
+                                </span>
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EMPTY -->
+
+                <div
+                    class="coordinator-empty"
+                    ng-if="!loading && events.length === 0"
+                >
+
+                    <div>
+
+                        <i class="fa-regular fa-calendar-xmark"></i>
+
+                    </div>
+
+                    <h3>
+                        No events created yet
+                    </h3>
+
+                    <p>
+                        Create your first event to
+                        start managing registrations.
+                    </p>
+
+                    <a
+                        href="#!/coordinator/create-event"
+                        class="btn"
+                        style="text-decoration: none;"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Create Event
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <div
+                class="coordinator-section"
+                data-aos="fade-up"
+            >
+
+                <div class="coordinator-section-heading">
+
+                    <div>
+
+                        <span>
+                            QUICK ACTIONS
+                        </span>
+
+                        <h2>
+                            Manage Portal
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="coordinator-quick-grid">
+
+
+                    <!-- CREATE EVENT -->
+
+                    <a
+                        href="#!/coordinator/create-event"
+                        style="text-decoration: none;"
+                    >
+
+                        <i class="fa-solid fa-calendar-plus"></i>
+
+                        <strong>
+                            Create Event
+                        </strong>
+
+                        <small>
+                            Publish a new event
+                        </small>
+
+                    </a>
+
+
+
+                    <!-- MANAGE EVENTS -->
+
+                    <a
+                        href="#!/coordinator/manage-events"
+                        style="text-decoration: none;"
+                    >
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                        <strong>
+                            Manage Events
+                        </strong>
+
+                        <small>
+                            Edit or delete events
+                        </small>
+
+                    </a>
+
+
+
+                    <!-- PARTICIPANTS -->
+
+                    <a
+                        href="#!/coordinator/participants"
+                        style="text-decoration: none;"
+                    >
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <strong>
+                            Participants
+                        </strong>
+
+                        <small>
+                            View registrations
+                        </small>
+
+                    </a>
+
+
+
+                    <!-- PROFILE -->
+
+                    <a
+                        href="#!/coordinator/profile"
+                        style="text-decoration: none;"
+                    >
+
+                        <i class="fa-solid fa-user-gear"></i>
+
+                        <strong>
+                            Profile
+                        </strong>
+
+                        <small>
+                            Manage coordinator profile
+                        </small>
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>

@@ -1,0 +1,1786 @@
+<div class="coordinator-page">
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="coordinator-sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+
+            <div class="brand-text">
+
+                <h2>TCE EventSphere</h2>
+
+                <span>Event Coordinator</span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="#!/coordinator/dashboard"
+                class="sidebar-link"
+            >
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a
+                href="#!/coordinator/create-event"
+                class="sidebar-link"
+            >
+                <i class="fas fa-plus-circle"></i>
+                <span>Create Event</span>
+            </a>
+
+
+            <a
+                href="#!/coordinator/manage-events"
+                class="sidebar-link active"
+            >
+                <i class="fas fa-calendar-check"></i>
+                <span>Manage Events</span>
+            </a>
+
+
+            <!--
+                Participants requires an event ID.
+                Therefore it is opened from the
+                Participants button of each event below.
+            -->
+
+            <a
+                href="#!/coordinator/manage-events"
+                class="sidebar-link"
+            >
+                <i class="fas fa-users"></i>
+                <span>Participants</span>
+            </a>
+
+
+            <a
+                href="#!/coordinator/profile"
+                class="sidebar-link"
+            >
+                <i class="fas fa-user-circle"></i>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="sidebar-logout"
+                ng-click="logout()"
+            >
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="coordinator-main">
+
+
+        <!-- =================================================
+             TOP BAR
+             ================================================= -->
+
+        <header class="coordinator-topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-sidebar-toggle"
+                    type="button"
+                    aria-label="Open menu"
+                >
+                    <i class="fas fa-bars"></i>
+                </button>
+
+
+                <div>
+
+                    <h1>Manage Events</h1>
+
+                    <p>
+                        View, edit and manage your events
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button
+                    class="notification-button"
+                    type="button"
+                    title="Notifications"
+                >
+                    <i class="fas fa-bell"></i>
+
+                    <span
+                        class="notification-dot"
+                        ng-if="false"
+                    ></span>
+
+                </button>
+
+
+                <div class="coordinator-avatar">
+
+                    <i class="fas fa-user"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+             ================================================= -->
+
+        <section class="manage-events-content">
+
+
+            <!-- =================================================
+                 PAGE HEADER
+                 ================================================= -->
+
+            <div class="manage-events-header">
+
+                <div class="manage-events-title-section">
+
+                    <div class="page-title-icon">
+
+                        <i class="fas fa-calendar-check"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>Manage Events</h2>
+
+                        <p>
+                            Manage all events created by your department
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="create-event-btn"
+                    ng-click="createEvent()"
+                >
+
+                    <i class="fas fa-plus"></i>
+
+                    Create Event
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 SEARCH + FILTER BAR
+                 ================================================= -->
+
+            <div class="manage-events-toolbar">
+
+                <div class="event-search-box">
+
+                    <i class="fas fa-search"></i>
+
+                    <input
+                        type="text"
+                        ng-model="searchText"
+                        ng-change="applyFilters()"
+                        placeholder="Search events, clubs, venues..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <div class="event-count">
+
+                    <i class="fas fa-calendar-alt"></i>
+
+                    <span>
+
+                        {{ filteredEvents.length || 0 }}
+
+                        {{
+                            (filteredEvents.length || 0) === 1
+                                ? 'Event'
+                                : 'Events'
+                        }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SUCCESS MESSAGE
+                 ================================================= -->
+
+            <div
+                class="alert-message alert-success-message"
+                ng-if="successMessage"
+            >
+
+                <i class="fas fa-check-circle"></i>
+
+                <span>
+                    {{ successMessage }}
+                </span>
+
+                <button
+                    type="button"
+                    ng-click="clearSuccess()"
+                    aria-label="Close"
+                >
+
+                    <i class="fas fa-times"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 ERROR MESSAGE
+                 ================================================= -->
+
+            <div
+                class="alert-message alert-error-message"
+                ng-if="errorMessage"
+            >
+
+                <i class="fas fa-exclamation-circle"></i>
+
+                <span>
+                    {{ errorMessage }}
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOADING
+                 ================================================= -->
+
+            <div
+                class="manage-events-loading"
+                ng-if="loading"
+            >
+
+                <div class="loading-spinner">
+
+                    <i class="fas fa-spinner fa-spin"></i>
+
+                </div>
+
+                <p>
+                    Loading events...
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 EMPTY STATE
+                 ================================================= -->
+
+            <div
+                class="manage-events-empty"
+                ng-if="
+                    !loading &&
+                    (!filteredEvents ||
+                    filteredEvents.length === 0)
+                "
+            >
+
+                <div class="empty-icon">
+
+                    <i class="fas fa-calendar-times"></i>
+
+                </div>
+
+
+                <h3>
+                    No Events Found
+                </h3>
+
+
+                <p ng-if="!searchText">
+
+                    You have not created any events yet.
+
+                </p>
+
+
+                <p ng-if="searchText">
+
+                    No events match your search.
+
+                </p>
+
+
+                <button
+                    class="create-event-btn empty-create-btn"
+                    ng-click="createEvent()"
+                    ng-if="!searchText"
+                >
+
+                    <i class="fas fa-plus"></i>
+
+                    Create Your First Event
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 DESKTOP TABLE
+                 ================================================= -->
+
+            <div
+                class="manage-events-table-wrapper"
+                ng-if="
+                    !loading &&
+                    filteredEvents &&
+                    filteredEvents.length > 0
+                "
+            >
+
+                <table class="manage-events-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th class="event-col">
+                                Event
+                            </th>
+
+                            <th class="category-col">
+                                Category
+                            </th>
+
+                            <th class="datetime-col">
+                                Date &amp; Time
+                            </th>
+
+                            <th class="venue-col">
+                                Venue
+                            </th>
+
+                            <th class="visibility-col">
+                                Visibility
+                            </th>
+
+                            <th class="registration-col">
+                                Registration
+                            </th>
+
+                            <th class="actions-col">
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr
+                            ng-repeat="
+                                event in filteredEvents
+                                track by event._id
+                            "
+                            class="event-table-row"
+                        >
+
+
+                            <!-- EVENT -->
+
+                            <td class="event-col">
+
+                                <div class="manage-event-info">
+
+
+                                    <!-- POSTER -->
+
+                                    <div class="event-poster-container">
+
+                                        <img
+                                            ng-if="event.posterURL"
+                                            ng-src="{{event.posterURL}}"
+                                            class="event-poster-thumb"
+                                            alt="{{event.title}}"
+                                            loading="lazy"
+                                        >
+
+
+                                        <div
+                                            ng-if="!event.posterURL"
+                                            class="event-poster-placeholder"
+                                        >
+
+                                            <i class="fas fa-calendar-alt"></i>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- EVENT DETAILS -->
+
+                                    <div class="manage-event-details">
+
+                                        <h3 class="manage-event-title">
+
+                                            {{ event.title }}
+
+                                        </h3>
+
+
+                                        <p
+                                            class="manage-event-club"
+                                            ng-if="event.clubName"
+                                        >
+
+                                            <i class="fas fa-users"></i>
+
+                                            {{ event.clubName }}
+
+                                        </p>
+
+
+                                        <p
+                                            class="manage-event-department"
+                                            ng-if="event.department"
+                                        >
+
+                                            {{ event.department }}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- CATEGORY -->
+
+                            <td class="category-col">
+
+                                <div class="category-cell">
+
+                                    <span
+                                        class="category-icon"
+                                        ng-class="
+                                            getCategoryClass(
+                                                event.category
+                                            )
+                                        "
+                                    >
+
+                                        <i
+                                            class="fas"
+                                            ng-class="
+                                                getCategoryIcon(
+                                                    event.category
+                                                )
+                                            "
+                                        ></i>
+
+                                    </span>
+
+
+                                    <span class="category-name">
+
+                                        {{ event.category }}
+
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- DATE + TIME -->
+
+                            <td class="datetime-col">
+
+                                <div class="event-datetime">
+
+                                    <div class="date-line">
+
+                                        <i class="far fa-calendar"></i>
+
+                                        <span>
+
+                                            {{
+                                                formatDate(
+                                                    event.eventDate
+                                                )
+                                            }}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="time-line">
+
+                                        <i class="far fa-clock"></i>
+
+                                        <span>
+
+                                            {{
+                                                formatTime(
+                                                    event.eventTime
+                                                )
+                                            }}
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- VENUE -->
+
+                            <td class="venue-col">
+
+                                <div class="venue-cell">
+
+                                    <i class="fas fa-map-marker-alt"></i>
+
+                                    <span>
+
+                                        {{
+                                            event.venue ||
+                                            'Not specified'
+                                        }}
+
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- VISIBILITY -->
+
+                            <td class="visibility-col">
+
+                                <span
+                                    class="visibility-badge"
+                                    ng-class="{
+
+                                        'department-visibility':
+                                            event.visibility ===
+                                            'DepartmentOnly',
+
+                                        'college-visibility':
+                                            event.visibility ===
+                                            'CollegeWide',
+
+                                        'open-visibility':
+                                            event.visibility ===
+                                            'OpenToAll'
+
+                                    }"
+                                >
+
+                                    <i
+                                        class="fas"
+                                        ng-class="{
+
+                                            'fa-building':
+                                                event.visibility ===
+                                                'DepartmentOnly',
+
+                                            'fa-university':
+                                                event.visibility ===
+                                                'CollegeWide',
+
+                                            'fa-globe':
+                                                event.visibility ===
+                                                'OpenToAll'
+
+                                        }"
+                                    ></i>
+
+
+                                    {{
+                                        getVisibilityLabel(
+                                            event.visibility
+                                        )
+                                    }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- REGISTRATION -->
+
+                            <td class="registration-col">
+
+                                <div class="registration-cell">
+
+                                    <div class="registration-type">
+
+                                        <i
+                                            class="fas"
+                                            ng-class="{
+
+                                                'fa-external-link-alt':
+                                                    event.registrationType ===
+                                                    'External' ||
+                                                    event.registrationType ===
+                                                    'external',
+
+                                                'fa-user-plus':
+                                                    event.registrationType ===
+                                                    'BuiltIn' ||
+                                                    event.registrationType ===
+                                                    'builtin'
+
+                                            }"
+                                        ></i>
+
+
+                                        <span>
+
+                                            {{
+                                                getRegistrationType(
+                                                    event.registrationType
+                                                )
+                                            }}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div
+                                        class="seat-info"
+                                        ng-if="
+                                            event.registrationType !==
+                                            'External' &&
+                                            event.registrationType !==
+                                            'external'
+                                        "
+                                    >
+
+                                        <span
+                                            ng-if="event.unlimitedSeats"
+                                        >
+
+                                            Unlimited seats
+
+                                        </span>
+
+
+                                        <span
+                                            ng-if="!event.unlimitedSeats"
+                                        >
+
+                                            {{
+                                                event.registeredSeats ||
+                                                0
+                                            }}
+
+                                            /
+
+                                            {{
+                                                event.maxSeats ||
+                                                0
+                                            }}
+
+                                            seats
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td class="actions-col">
+
+                                <div class="event-actions">
+
+
+                                    <!-- VIEW -->
+
+                                    <button
+                                        type="button"
+                                        class="event-action-btn view-action"
+                                        ng-click="viewEvent(event)"
+                                        title="View Event"
+                                    >
+
+                                        <i class="fas fa-eye"></i>
+
+                                    </button>
+
+
+                                    <!-- PARTICIPANTS -->
+
+                                    <button
+                                        type="button"
+                                        class="event-action-btn participants-action"
+                                        ng-click="
+                                            viewParticipants(event)
+                                        "
+                                        title="View Participants"
+                                    >
+
+                                        <i class="fas fa-users"></i>
+
+                                    </button>
+
+
+                                    <!-- EDIT -->
+
+                                    <button
+                                        type="button"
+                                        class="event-action-btn edit-action"
+                                        ng-click="
+                                            openEditModal(event)
+                                        "
+                                        title="Edit Event"
+                                    >
+
+                                        <i class="fas fa-pen"></i>
+
+                                    </button>
+
+
+                                    <!-- DELETE -->
+
+                                    <button
+                                        type="button"
+                                        class="event-action-btn delete-action"
+                                        ng-click="
+                                            openDeleteModal(event)
+                                        "
+                                        title="Delete Event"
+                                    >
+
+                                        <i class="fas fa-trash-alt"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =================================================
+                 MOBILE EVENT CARDS
+                 ================================================= -->
+
+            <div
+                class="mobile-event-list"
+                ng-if="
+                    !loading &&
+                    filteredEvents &&
+                    filteredEvents.length > 0
+                "
+            >
+
+                <div
+                    class="mobile-event-card"
+                    ng-repeat="
+                        event in filteredEvents
+                        track by event._id
+                    "
+                >
+
+
+                    <!-- POSTER -->
+
+                    <div class="mobile-event-poster">
+
+                        <img
+                            ng-if="event.posterURL"
+                            ng-src="{{event.posterURL}}"
+                            alt="{{event.title}}"
+                            loading="lazy"
+                        >
+
+
+                        <div
+                            ng-if="!event.posterURL"
+                            class="mobile-poster-placeholder"
+                        >
+
+                            <i class="fas fa-calendar-alt"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="mobile-event-details">
+
+                        <h3>
+                            {{ event.title }}
+                        </h3>
+
+
+                        <p
+                            class="mobile-club"
+                            ng-if="event.clubName"
+                        >
+
+                            <i class="fas fa-users"></i>
+
+                            {{ event.clubName }}
+
+                        </p>
+
+
+                        <div class="mobile-info-row">
+
+                            <i class="fas fa-tag"></i>
+
+                            <span>
+                                {{ event.category }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="mobile-info-row">
+
+                            <i class="far fa-calendar"></i>
+
+                            <span>
+
+                                {{
+                                    formatDate(
+                                        event.eventDate
+                                    )
+                                }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="mobile-info-row">
+
+                            <i class="far fa-clock"></i>
+
+                            <span>
+
+                                {{
+                                    formatTime(
+                                        event.eventTime
+                                    )
+                                }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="mobile-info-row">
+
+                            <i class="fas fa-map-marker-alt"></i>
+
+                            <span>
+
+                                {{
+                                    event.venue ||
+                                    'Not specified'
+                                }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="mobile-badges">
+
+                            <span
+                                class="mobile-visibility-badge"
+                            >
+
+                                {{
+                                    getVisibilityLabel(
+                                        event.visibility
+                                    )
+                                }}
+
+                            </span>
+
+
+                            <span
+                                class="mobile-registration-badge"
+                            >
+
+                                {{
+                                    getRegistrationType(
+                                        event.registrationType
+                                    )
+                                }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- MOBILE ACTIONS -->
+
+                        <div class="mobile-event-actions">
+
+
+                            <!-- VIEW -->
+
+                            <button
+                                type="button"
+                                class="mobile-action view"
+                                ng-click="
+                                    viewEvent(event)
+                                "
+                            >
+
+                                <i class="fas fa-eye"></i>
+
+                                View
+
+                            </button>
+
+
+                            <!-- PARTICIPANTS -->
+
+                            <button
+                                type="button"
+                                class="mobile-action participants"
+                                ng-click="
+                                    viewParticipants(event)
+                                "
+                            >
+
+                                <i class="fas fa-users"></i>
+
+                                Participants
+
+                            </button>
+
+
+                            <!-- EDIT -->
+
+                            <button
+                                type="button"
+                                class="mobile-action edit"
+                                ng-click="
+                                    openEditModal(event)
+                                "
+                            >
+
+                                <i class="fas fa-pen"></i>
+
+                                Edit
+
+                            </button>
+
+
+                            <!-- DELETE -->
+
+                            <button
+                                type="button"
+                                class="mobile-action delete"
+                                ng-click="
+                                    openDeleteModal(event)
+                                "
+                            >
+
+                                <i class="fas fa-trash-alt"></i>
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     EDIT EVENT MODAL
+     ========================================================= -->
+
+<div
+    class="event-modal-overlay"
+    ng-if="showEditModal"
+    ng-click="closeEditModal()"
+>
+
+    <div
+        class="event-modal edit-event-modal"
+        ng-click="$event.stopPropagation()"
+    >
+
+
+        <!-- MODAL HEADER -->
+
+        <div class="event-modal-header">
+
+            <div class="modal-title-wrapper">
+
+                <div class="modal-title-icon">
+
+                    <i class="fas fa-pen"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        Edit Event
+                    </h2>
+
+                    <p>
+                        Update event information
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close-btn"
+                ng-click="closeEditModal()"
+            >
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- MODAL BODY -->
+
+        <div class="event-modal-body">
+
+            <form
+                name="editEventForm"
+                ng-submit="updateEvent()"
+                novalidate
+            >
+
+
+                <!-- BASIC INFORMATION -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+
+                        <i class="fas fa-info-circle"></i>
+
+                        Basic Information
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- TITLE -->
+
+                        <div class="form-group full-width">
+
+                            <label>
+
+                                Event Title
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                ng-model="selectedEvent.title"
+                                required
+                                placeholder="Enter event title"
+                            >
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="form-group full-width">
+
+                            <label>
+
+                                Description
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <textarea
+                                ng-model="selectedEvent.description"
+                                rows="4"
+                                required
+                                placeholder="Describe the event..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <!-- CLUB -->
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Club / Organizing Team
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                ng-model="selectedEvent.clubName"
+                                required
+                                placeholder="Enter club name"
+                            >
+
+                        </div>
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Category
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <select
+                                ng-model="selectedEvent.category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                <option value="Technical">
+                                    Technical
+                                </option>
+
+                                <option value="Workshop">
+                                    Workshop
+                                </option>
+
+                                <option value="Seminar">
+                                    Seminar
+                                </option>
+
+                                <option value="Sports">
+                                    Sports
+                                </option>
+
+                                <option value="Cultural">
+                                    Cultural
+                                </option>
+
+                                <option value="Placement">
+                                    Placement
+                                </option>
+
+                                <option value="NSS">
+                                    NSS
+                                </option>
+
+                                <option value="NCC">
+                                    NCC
+                                </option>
+
+                                <option value="YRC">
+                                    YRC
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- VENUE -->
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Venue
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                ng-model="selectedEvent.venue"
+                                required
+                                placeholder="Enter venue"
+                            >
+
+                        </div>
+
+
+                        <!-- VISIBILITY -->
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Visibility
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <select
+                                ng-model="selectedEvent.visibility"
+                                required
+                            >
+
+                                <option value="DepartmentOnly">
+                                    Department Only
+                                </option>
+
+                                <option value="CollegeWide">
+                                    College Wide
+                                </option>
+
+                                <option value="OpenToAll">
+                                    Open to All
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DATE & TIME -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+
+                        <i class="far fa-calendar-alt"></i>
+
+                        Date &amp; Time
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Event Date
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="date"
+                                ng-model="selectedEvent.eventDate"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Event Time
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="time"
+                                ng-model="selectedEvent.eventTime"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Registration Start Date
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="date"
+                                ng-model="selectedEvent.regStartDate"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Registration Start Time
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="time"
+                                ng-model="selectedEvent.regStartTime"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Registration End Date
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="date"
+                                ng-model="selectedEvent.regEndDate"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Registration End Time
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="time"
+                                ng-model="selectedEvent.regEndTime"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REGISTRATION -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+
+                        <i class="fas fa-user-plus"></i>
+
+                        Registration
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- REGISTRATION TYPE -->
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Registration Type
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <select
+                                ng-model="selectedEvent.registrationType"
+                                required
+                            >
+
+                                <option value="BuiltIn">
+                                    Built-in Registration
+                                </option>
+
+                                <option value="External">
+                                    External Registration
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- MAX SEATS -->
+
+                        <div
+                            class="form-group"
+                            ng-if="
+                                selectedEvent.registrationType ===
+                                'BuiltIn' ||
+                                selectedEvent.registrationType ===
+                                'builtin'
+                            "
+                        >
+
+                            <label>
+                                Maximum Seats
+                            </label>
+
+
+                            <input
+                                type="number"
+                                min="1"
+                                ng-model="selectedEvent.maxSeats"
+                                ng-disabled="
+                                    selectedEvent.unlimitedSeats
+                                "
+                                placeholder="Enter maximum seats"
+                            >
+
+                        </div>
+
+
+                        <!-- UNLIMITED -->
+
+                        <div
+                            class="form-group checkbox-form-group"
+                            ng-if="
+                                selectedEvent.registrationType ===
+                                'BuiltIn' ||
+                                selectedEvent.registrationType ===
+                                'builtin'
+                            "
+                        >
+
+                            <label class="checkbox-label">
+
+                                <input
+                                    type="checkbox"
+                                    ng-model="
+                                        selectedEvent.unlimitedSeats
+                                    "
+                                >
+
+                                <span>
+                                    Unlimited seats
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- EXTERNAL LINK -->
+
+                        <div
+                            class="form-group full-width"
+                            ng-if="
+                                selectedEvent.registrationType ===
+                                'External' ||
+                                selectedEvent.registrationType ===
+                                'external'
+                            "
+                        >
+
+                            <label>
+
+                                Registration Link
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <input
+                                type="url"
+                                ng-model="
+                                    selectedEvent.registrationLink
+                                "
+                                placeholder="https://forms.google.com/..."
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MODAL FOOTER -->
+
+                <div class="event-modal-footer">
+
+                    <button
+                        type="button"
+                        class="modal-cancel-btn"
+                        ng-click="closeEditModal()"
+                    >
+
+                        Cancel
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="modal-save-btn"
+                        ng-disabled="
+                            editLoading ||
+                            editEventForm.$invalid
+                        "
+                    >
+
+                        <i
+                            class="fas"
+                            ng-class="
+                                editLoading
+                                    ? 'fa-spinner fa-spin'
+                                    : 'fa-save'
+                            "
+                        ></i>
+
+
+                        {{
+                            editLoading
+                                ? 'Saving...'
+                                : 'Save Changes'
+                        }}
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     DELETE EVENT MODAL
+     ========================================================= -->
+
+<div
+    class="event-modal-overlay"
+    ng-if="showDeleteModal"
+    ng-click="closeDeleteModal()"
+>
+
+    <div
+        class="event-modal delete-event-modal"
+        ng-click="$event.stopPropagation()"
+    >
+
+        <div class="delete-modal-content">
+
+
+            <div class="delete-icon">
+
+                <i class="fas fa-trash-alt"></i>
+
+            </div>
+
+
+            <h2>
+                Delete Event?
+            </h2>
+
+
+            <p>
+
+                Are you sure you want to delete
+
+                <strong>
+                    {{ eventToDelete.title }}
+                </strong>?
+
+            </p>
+
+
+            <p class="delete-warning">
+
+                This action cannot be undone.
+
+            </p>
+
+
+            <div class="delete-modal-actions">
+
+
+                <button
+                    type="button"
+                    class="modal-cancel-btn"
+                    ng-click="closeDeleteModal()"
+                >
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="modal-delete-btn"
+                    ng-click="deleteEvent()"
+                    ng-disabled="deleteLoading"
+                >
+
+                    <i
+                        class="fas"
+                        ng-class="
+                            deleteLoading
+                                ? 'fa-spinner fa-spin'
+                                : 'fa-trash-alt'
+                        "
+                    ></i>
+
+
+                    {{
+                        deleteLoading
+                            ? 'Deleting...'
+                            : 'Delete Event'
+                    }}
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

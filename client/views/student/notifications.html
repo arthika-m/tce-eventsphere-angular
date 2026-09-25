@@ -1,0 +1,244 @@
+<div class="container-fluid py-4">
+
+    <!-- Header -->
+    <div
+        class="d-flex justify-content-between align-items-center mb-4"
+    >
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                <i
+                    class="fa-solid fa-bell me-2"
+                ></i>
+
+                Notifications
+            </h2>
+
+            <p class="text-muted mb-0">
+                Stay updated with your event activities.
+            </p>
+
+        </div>
+
+
+        <button
+            class="btn btn-outline-primary"
+            ng-click="markAllAsRead()"
+            ng-disabled="!notifications.length"
+        >
+
+            <i
+                class="fa-solid fa-check-double me-2"
+            ></i>
+
+            Mark All as Read
+
+        </button>
+
+    </div>
+
+
+    <!-- Success -->
+    <div
+        ng-if="successMessage"
+        class="alert alert-success"
+    >
+        <i
+            class="fa-solid fa-circle-check me-2"
+        ></i>
+
+        {{ successMessage }}
+    </div>
+
+
+    <!-- Error -->
+    <div
+        ng-if="errorMessage"
+        class="alert alert-danger"
+    >
+        <i
+            class="fa-solid fa-circle-exclamation me-2"
+        ></i>
+
+        {{ errorMessage }}
+    </div>
+
+
+    <!-- Loading -->
+    <div
+        ng-if="loading"
+        class="text-center py-5"
+    >
+
+        <div
+            class="spinner-border text-primary"
+        ></div>
+
+        <p class="text-muted mt-3">
+            Loading notifications...
+        </p>
+
+    </div>
+
+
+    <!-- Notifications -->
+    <div
+        ng-if="!loading && notifications.length"
+        class="list-group"
+    >
+
+        <div
+            class="list-group-item list-group-item-action mb-2 rounded"
+            ng-repeat="notification in notifications"
+            ng-class="{
+                'bg-light': !notification.isRead
+            }"
+        >
+
+            <div
+                class="d-flex align-items-start"
+            >
+
+                <!-- Icon -->
+                <div
+                    class="me-3"
+                >
+
+                    <div
+                        class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center"
+                        style="
+                            width: 48px;
+                            height: 48px;
+                        "
+                    >
+
+                        <i
+                            class="fa-solid"
+                            ng-class="getNotificationIcon(notification.type)"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Content -->
+                <div
+                    class="flex-grow-1"
+                    ng-click="openNotification(notification)"
+                    style="cursor: pointer;"
+                >
+
+                    <div
+                        class="d-flex justify-content-between"
+                    >
+
+                        <h5
+                            class="mb-1 fw-semibold"
+                        >
+                            {{ notification.title }}
+
+                            <span
+                                ng-if="!notification.isRead"
+                                class="badge bg-primary ms-2"
+                            >
+                                New
+                            </span>
+                        </h5>
+
+                    </div>
+
+
+                    <p class="mb-2 text-muted">
+                        {{ notification.message }}
+                    </p>
+
+
+                    <small class="text-muted">
+
+                        <i
+                            class="fa-regular fa-calendar me-1"
+                        ></i>
+
+                        {{ formatDate(notification.createdAt) }}
+
+                        <span class="mx-1">
+                            •
+                        </span>
+
+                        {{ formatTime(notification.createdAt) }}
+
+                    </small>
+
+                </div>
+
+
+                <!-- Actions -->
+                <div
+                    class="ms-3 d-flex gap-2"
+                >
+
+                    <button
+                        class="btn btn-sm btn-outline-secondary"
+                        ng-if="!notification.isRead"
+                        ng-click="markAsRead(notification)"
+                        title="Mark as read"
+                    >
+
+                        <i
+                            class="fa-solid fa-check"
+                        ></i>
+
+                    </button>
+
+
+                    <button
+                        class="btn btn-sm btn-outline-danger"
+                        ng-click="deleteNotification(notification)"
+                        title="Delete"
+                    >
+
+                        <i
+                            class="fa-solid fa-trash"
+                        ></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Empty state -->
+    <div
+        ng-if="!loading && !notifications.length"
+        class="text-center py-5"
+    >
+
+        <div
+            class="mb-3"
+        >
+
+            <i
+                class="fa-regular fa-bell-slash text-muted"
+                style="font-size: 4rem;"
+            ></i>
+
+        </div>
+
+        <h4 class="fw-semibold">
+            No notifications
+        </h4>
+
+        <p class="text-muted">
+            You're all caught up!
+        </p>
+
+    </div>
+
+</div>

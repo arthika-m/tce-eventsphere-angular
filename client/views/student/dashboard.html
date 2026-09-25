@@ -1,0 +1,860 @@
+<div class="student-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="student-sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="sidebar-logo">
+                TCE
+            </div>
+
+            <div>
+                <h5>TCE EventSphere</h5>
+                <small>Student Portal</small>
+            </div>
+
+        </div>
+
+
+        <!-- SIDEBAR USER -->
+
+        <div class="sidebar-user">
+
+            <div class="sidebar-avatar">
+                {{ user.name.charAt(0) }}
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ user.name }}
+                </strong>
+
+                <small>
+                    Student
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- SIDEBAR NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="#!/student/dashboard"
+                class="active"
+            >
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="#!/student/department-events">
+
+                <i class="fa-solid fa-building"></i>
+
+                <span>
+                    Department Events
+                </span>
+
+            </a>
+
+
+            <a href="#!/student/college-events">
+
+                <i class="fa-solid fa-globe"></i>
+
+                <span>
+                    College-Wide Events
+                </span>
+
+            </a>
+
+
+            <a href="#!/student/my-registrations">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <span>
+                    My Registrations
+                </span>
+
+            </a>
+
+
+            <a href="#!/student/profile">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>
+                    Profile
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-bottom">
+
+            <button
+                type="button"
+                ng-click="logout()"
+                class="sidebar-logout"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="student-main">
+
+
+        <!-- =================================================
+             TOP BAR
+        ================================================== -->
+
+        <header class="student-topbar">
+
+            <div>
+
+                <h4>
+                    Student Dashboard
+                </h4>
+
+                <p>
+                    {{ user.department }}
+                </p>
+
+            </div>
+
+
+            <div class="topbar-user">
+
+                <div class="topbar-avatar">
+                    {{ user.name.charAt(0) }}
+                </div>
+
+                <span>
+                    {{ user.name }}
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <section class="student-content">
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <div
+                class="dashboard-welcome"
+                data-aos="fade-up"
+            >
+
+                <div>
+
+                    <span class="welcome-label">
+                        TCE EVENTSPHERE
+                    </span>
+
+
+                    <!-- =========================================
+                         TWO-WAY DATA BINDING
+                    ========================================== -->
+
+                    <div class="welcome-name-binding">
+
+                        <label
+                            for="dashboardName"
+                            class="welcome-name-label"
+                        >
+
+                            Enter Your Name:
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="dashboardName"
+                            class="form-control welcome-name-input"
+                            ng-model="dashboardName"
+                            placeholder="Enter your name"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- =========================================
+                         LIVE BOUND TEXT
+                    ========================================== -->
+
+                    <h1>
+
+                        Welcome back,
+
+                        <span>
+                            {{ dashboardName || 'Student' }}
+                        </span>!
+
+                    </h1>
+
+
+                    <p>
+
+                        Discover upcoming events,
+                        register instantly and stay
+                        connected with TCE activities.
+
+                    </p>
+
+                </div>
+
+
+                <div class="welcome-icon">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STATS
+            ================================================== -->
+
+            <div class="dashboard-stats">
+
+
+                <!-- AVAILABLE EVENTS -->
+
+                <div class="dashboard-stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Available Events
+                        </span>
+
+                        <strong>
+                            {{ events.length }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DEPARTMENT -->
+
+                <div class="dashboard-stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Department
+                        </span>
+
+                        <strong>
+                            {{ user.department }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- REGISTRATIONS -->
+
+                <div class="dashboard-stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa-solid fa-ticket"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            My Registrations
+                        </span>
+
+                        <strong>
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- NOTIFICATIONS -->
+
+                <div class="dashboard-stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa-solid fa-bell"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Notifications
+                        </span>
+
+                        <strong>
+                            {{ notificationCount }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 EVENTS
+            ================================================== -->
+
+            <div
+                class="dashboard-section"
+                data-aos="fade-up"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            DISCOVER
+                        </span>
+
+                        <h2>
+                            Upcoming Events
+                        </h2>
+
+                    </div>
+
+
+                    <a
+                        href="#!/student/college-events"
+                        class="view-all-link"
+                    >
+
+                        View All
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- ERROR -->
+
+                <div
+                    class="alert alert-danger"
+                    ng-if="error"
+                >
+
+                    <i
+                        class="fa-solid fa-circle-exclamation"
+                    ></i>
+
+                    {{ error }}
+
+                </div>
+
+
+
+                <!-- LOADING -->
+
+                <div
+                    class="dashboard-loading"
+                    ng-if="loadingEvents"
+                >
+
+                    <div
+                        class="spinner-border text-primary"
+                    ></div>
+
+                    <p>
+                        Loading events...
+                    </p>
+
+                </div>
+
+
+
+                <!-- EVENT GRID -->
+
+                <div
+                    class="dashboard-event-grid"
+                    ng-if="
+                        !loadingEvents &&
+                        events.length > 0
+                    "
+                >
+
+                    <div
+                        class="dashboard-event-card"
+                        ng-repeat="
+                            event in events | limitTo:6
+                        "
+                        ng-click="
+                            viewEvent(event)
+                        "
+                    >
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="event-card-top">
+
+                            <span
+                                class="event-category"
+                            >
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="
+                                        getCategoryIcon(
+                                            event.category
+                                        )
+                                    "
+                                ></i>
+
+                                {{ event.category }}
+
+                            </span>
+
+
+                            <span
+                                class="event-visibility"
+                            >
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="
+                                        event.visibility === 'CollegeWide'
+                                            ? 'fa-globe'
+                                            : 'fa-building'
+                                    "
+                                ></i>
+
+
+                                {{
+                                    event.visibility === 'CollegeWide'
+                                    ? 'College'
+                                    : 'Department'
+                                }}
+
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- TITLE -->
+
+                        <h3>
+                            {{ event.title }}
+                        </h3>
+
+
+
+                        <!-- CLUB -->
+
+                        <p class="event-club">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            {{ event.clubName }}
+
+                        </p>
+
+
+
+                        <!-- DESCRIPTION -->
+
+                        <p class="event-description">
+
+                            {{ event.description }}
+
+                        </p>
+
+
+
+                        <!-- DETAILS -->
+
+                        <div class="event-details">
+
+                            <div>
+
+                                <i
+                                    class="fa-regular fa-calendar"
+                                ></i>
+
+                                {{
+                                    event.eventDate
+                                    | date:'dd MMM yyyy'
+                                }}
+
+                            </div>
+
+
+                            <div>
+
+                                <i
+                                    class="fa-regular fa-clock"
+                                ></i>
+
+                                {{
+                                    formatTime(
+                                        event.eventTime
+                                    )
+                                }}
+
+                            </div>
+
+
+                            <div>
+
+                                <i
+                                    class="fa-solid fa-location-dot"
+                                ></i>
+
+                                {{ event.venue }}
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- SEATS -->
+
+                        <div
+                            class="event-seat-area"
+                            ng-if="
+                                !event.unlimitedSeats
+                            "
+                        >
+
+                            <div class="seat-header">
+
+                                <span>
+                                    Seats
+                                </span>
+
+                                <span>
+
+                                    {{
+                                        event.registeredSeats
+                                        || 0
+                                    }}
+
+                                    /
+
+                                    {{ event.maxSeats }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="seat-progress">
+
+                                <div
+                                    class="seat-progress-bar"
+                                    ng-style="{
+                                        width:
+                                            getSeatPercentage(event)
+                                            + '%'
+                                    }"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- UNLIMITED -->
+
+                        <div
+                            class="unlimited-seat"
+                            ng-if="
+                                event.unlimitedSeats
+                            "
+                        >
+
+                            <i
+                                class="fa-solid fa-infinity"
+                            ></i>
+
+                            Unlimited Seats
+
+                        </div>
+
+
+
+                        <!-- BUTTON -->
+
+                        <button
+                            type="button"
+                            class="event-view-button"
+                            ng-click="
+                                viewEvent(event);
+                                $event.stopPropagation()
+                            "
+                        >
+
+                            View Details
+
+                            <i
+                                class="fa-solid fa-arrow-right"
+                            ></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EMPTY -->
+
+                <div
+                    class="dashboard-empty"
+                    ng-if="
+                        !loadingEvents &&
+                        events.length === 0
+                    "
+                >
+
+                    <div class="empty-icon">
+
+                        <i
+                            class="fa-regular fa-calendar-xmark"
+                        ></i>
+
+                    </div>
+
+                    <h3>
+                        No events available
+                    </h3>
+
+                    <p>
+
+                        There are no upcoming events
+                        available for you right now.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <div
+                class="quick-actions"
+                data-aos="fade-up"
+            >
+
+                <h2>
+                    Quick Actions
+                </h2>
+
+
+                <div class="quick-action-grid">
+
+
+                    <!-- DEPARTMENT EVENTS -->
+
+                    <a
+                        href="#!/student/department-events"
+                        class="quick-action"
+                    >
+
+                        <i
+                            class="fa-solid fa-building"
+                        ></i>
+
+                        <div>
+
+                            <strong>
+                                Department Events
+                            </strong>
+
+                            <span>
+
+                                Explore
+                                {{ user.department }}
+                                events
+
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+
+                    <!-- COLLEGE EVENTS -->
+
+                    <a
+                        href="#!/student/college-events"
+                        class="quick-action"
+                    >
+
+                        <i
+                            class="fa-solid fa-globe"
+                        ></i>
+
+                        <div>
+
+                            <strong>
+                                College Events
+                            </strong>
+
+                            <span>
+                                Explore all college events
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+
+                    <!-- MY REGISTRATIONS -->
+
+                    <a
+                        href="#!/student/my-registrations"
+                        class="quick-action"
+                    >
+
+                        <i
+                            class="fa-solid fa-ticket"
+                        ></i>
+
+                        <div>
+
+                            <strong>
+                                My Registrations
+                            </strong>
+
+                            <span>
+                                View your registrations
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+
+                    <!-- PROFILE -->
+
+                    <a
+                        href="#!/student/profile"
+                        class="quick-action"
+                    >
+
+                        <i
+                            class="fa-solid fa-user-gear"
+                        ></i>
+
+                        <div>
+
+                            <strong>
+                                My Profile
+                            </strong>
+
+                            <span>
+                                Manage your account
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>

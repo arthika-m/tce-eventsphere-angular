@@ -1,0 +1,1747 @@
+<div
+    class="coordinator-participants-page"
+    style="min-height:100vh;background:#f6f7fb;"
+>
+
+
+    <!-- ===================================================== -->
+    <!-- COORDINATOR SIDEBAR -->
+    <!-- ===================================================== -->
+
+    <aside
+        style="
+            position:fixed;
+            left:0;
+            top:0;
+            bottom:0;
+            width:264px;
+            background:#101832;
+            color:white;
+            z-index:1000;
+            overflow-y:auto;
+        "
+        class="d-none d-lg-block"
+    >
+
+        <!-- Logo -->
+
+        <div
+            style="
+                height:82px;
+                display:flex;
+                align-items:center;
+                padding:0 24px;
+                border-bottom:1px solid rgba(255,255,255,.08);
+            "
+        >
+
+            <div
+                style="
+                    width:38px;
+                    height:38px;
+                    border-radius:10px;
+                    background:linear-gradient(135deg,#ff9f1c,#ff4d3d);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin-right:12px;
+                "
+            >
+
+                <i class="fa-solid fa-bolt"></i>
+
+            </div>
+
+            <strong style="font-size:18px;">
+                TCE Coordinator
+            </strong>
+
+        </div>
+
+
+        <!-- Coordinator -->
+
+        <div
+            style="
+                padding:20px 24px;
+                border-bottom:1px solid rgba(255,255,255,.08);
+            "
+        >
+
+            <div
+                class="d-flex align-items-center"
+            >
+
+                <div
+                    style="
+                        width:44px;
+                        height:44px;
+                        border-radius:12px;
+                        background:linear-gradient(135deg,#ff9f1c,#ff4d3d);
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        margin-right:12px;
+                        font-weight:bold;
+                    "
+                >
+
+                    {{
+                        (
+                            user.name ||
+                            'C'
+                        ).charAt(0)
+                    }}
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        style="
+                            font-weight:600;
+                            font-size:15px;
+                        "
+                    >
+
+                        {{user.name || 'Coordinator'}}
+
+                    </div>
+
+                    <div
+                        style="
+                            color:#ff9f1c;
+                            font-size:12px;
+                            margin-top:2px;
+                        "
+                    >
+
+                        Event Coordinator
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <nav
+            style="
+                padding:20px 16px;
+            "
+        >
+
+            <!-- Dashboard -->
+
+            <a
+                href="#!/coordinator/dashboard"
+                class="d-flex align-items-center text-decoration-none"
+                style="
+                    padding:13px 14px;
+                    color:#aeb7d0;
+                    border-radius:10px;
+                    margin-bottom:6px;
+                "
+            >
+
+                <i
+                    class="fa-solid fa-chart-pie"
+                    style="width:28px;"
+                ></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- Create Event -->
+
+            <a
+                href="#!/coordinator/create-event"
+                class="d-flex align-items-center text-decoration-none"
+                style="
+                    padding:13px 14px;
+                    color:#aeb7d0;
+                    border-radius:10px;
+                    margin-bottom:6px;
+                "
+            >
+
+                <i
+                    class="fa-solid fa-circle-plus"
+                    style="width:28px;"
+                ></i>
+
+                <span>
+                    Create Event
+                </span>
+
+            </a>
+
+
+            <!-- Manage Events -->
+
+            <a
+                href="#!/coordinator/manage-events"
+                class="d-flex align-items-center text-decoration-none"
+                style="
+                    padding:13px 14px;
+                    color:#aeb7d0;
+                    border-radius:10px;
+                    margin-bottom:6px;
+                "
+            >
+
+                <i
+                    class="fa-solid fa-calendar-days"
+                    style="width:28px;"
+                ></i>
+
+                <span>
+                    Manage Events
+                </span>
+
+            </a>
+
+
+            <!-- Participants -->
+
+            <a
+                href="#!/coordinator/participants"
+                class="d-flex align-items-center text-decoration-none"
+                style="
+                    padding:13px 14px;
+                    color:white;
+                    background:linear-gradient(90deg,#ff9f1c,#ff4d3d);
+                    border-radius:10px;
+                    margin-bottom:6px;
+                    font-weight:600;
+                "
+            >
+
+                <i
+                    class="fa-solid fa-users"
+                    style="width:28px;"
+                ></i>
+
+                <span>
+                    Participants
+                </span>
+
+            </a>
+
+
+            <!-- Profile -->
+
+            <a
+                href="#!/coordinator/profile"
+                class="d-flex align-items-center text-decoration-none"
+                style="
+                    padding:13px 14px;
+                    color:#aeb7d0;
+                    border-radius:10px;
+                    margin-bottom:6px;
+                "
+            >
+
+                <i
+                    class="fa-solid fa-user"
+                    style="width:28px;"
+                ></i>
+
+                <span>
+                    Profile
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- Logout -->
+
+        <div
+            style="
+                position:absolute;
+                bottom:0;
+                left:0;
+                right:0;
+                padding:16px;
+            "
+        >
+
+            <button
+                type="button"
+                class="btn w-100 text-start"
+                style="
+                    color:#aeb7d0;
+                "
+                ng-click="logout()"
+            >
+
+                <i
+                    class="fa-solid fa-right-from-bracket me-2"
+                ></i>
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ===================================================== -->
+    <!-- MAIN AREA -->
+    <!-- ===================================================== -->
+
+    <main
+        style="
+            margin-left:264px;
+            min-height:100vh;
+        "
+    >
+
+
+        <!-- ================================================= -->
+        <!-- TOP BAR -->
+        <!-- ================================================= -->
+
+        <div
+            style="
+                height:74px;
+                background:white;
+                border-bottom:1px solid #e9ebf0;
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                padding:0 28px;
+            "
+        >
+
+            <div>
+
+                <h4
+                    class="fw-bold mb-0"
+                    style="color:#15213b;"
+                >
+
+                    Participants
+
+                </h4>
+
+                <small
+                    class="text-muted"
+                >
+
+                    {{user.department || 'Information Technology'}}
+
+                </small>
+
+            </div>
+
+
+            <div
+                style="
+                    width:38px;
+                    height:38px;
+                    border-radius:10px;
+                    background:linear-gradient(135deg,#ff9f1c,#ff4d3d);
+                    color:white;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-weight:bold;
+                "
+            >
+
+                {{
+                    (
+                        user.name ||
+                        'C'
+                    ).charAt(0)
+                }}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- CONTENT -->
+        <!-- ================================================= -->
+
+        <div
+            class="container-fluid p-4"
+        >
+
+
+            <!-- ================================================= -->
+            <!-- SELECT EVENT -->
+            <!-- ================================================= -->
+
+            <div
+                class="card border-0 shadow-sm mb-4"
+                style="border-radius:16px;"
+            >
+
+                <div
+                    class="card-body p-4"
+                >
+
+                    <label
+                        class="fw-semibold mb-2"
+                    >
+
+                        Select Event
+
+                    </label>
+
+
+                    <select
+                        class="form-select form-select-lg"
+                        ng-model="selectedEventId"
+                        ng-change="onEventChange()"
+                        ng-options="
+                            event._id as
+                            (
+                                event.title +
+                                ' — ' +
+                                formatDate(event.eventDate) +
+                                ' (' +
+                                (event.registeredSeats || 0) +
+                                ' registered)'
+                            )
+                            for event in events
+                        "
+                    >
+
+                        <option
+                            value=""
+                        >
+
+                            Select an event
+
+                        </option>
+
+                    </select>
+
+
+                    <div
+                        class="text-muted mt-2"
+                        ng-if="loadingEvents"
+                    >
+
+                        <span
+                            class="spinner-border spinner-border-sm me-2"
+                        ></span>
+
+                        Loading events...
+
+                    </div>
+
+
+                    <div
+                        class="text-muted mt-2"
+                        ng-if="
+                            !loadingEvents &&
+                            events.length === 0
+                        "
+                    >
+
+                        No events available.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- ERROR -->
+            <!-- ================================================= -->
+
+            <div
+                class="alert alert-danger"
+                ng-if="errorMessage"
+            >
+
+                <i
+                    class="fa-solid fa-circle-exclamation me-2"
+                ></i>
+
+                {{errorMessage}}
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- SUCCESS -->
+            <!-- ================================================= -->
+
+            <div
+                class="alert alert-success"
+                ng-if="successMessage"
+            >
+
+                <i
+                    class="fa-solid fa-circle-check me-2"
+                ></i>
+
+                {{successMessage}}
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- SELECTED EVENT INFORMATION -->
+            <!-- ================================================= -->
+
+            <div
+                class="card border-0 shadow-sm mb-4"
+                ng-if="event"
+                style="border-radius:16px;"
+            >
+
+                <div
+                    class="card-body p-4"
+                >
+
+                    <div
+                        class="row align-items-center g-4"
+                    >
+
+                        <!-- Event -->
+
+                        <div
+                            class="col-lg-5"
+                        >
+
+                            <div
+                                class="d-flex align-items-center"
+                            >
+
+                                <div
+                                    style="
+                                        width:56px;
+                                        height:56px;
+                                        border-radius:12px;
+                                        background:#e9f1ff;
+                                        color:#1769ff;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        margin-right:16px;
+                                    "
+                                >
+
+                                    <i
+                                        class="fa-solid fa-calendar-check fa-lg"
+                                    ></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <h4
+                                        class="fw-bold mb-1"
+                                    >
+
+                                        {{event.title}}
+
+                                    </h4>
+
+                                    <div
+                                        class="text-muted"
+                                    >
+
+                                        {{event.clubName}}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Date -->
+
+                        <div
+                            class="col-sm-4 col-lg-2"
+                        >
+
+                            <small
+                                class="text-muted d-block mb-1"
+                            >
+
+                                Event Date
+
+                            </small>
+
+                            <strong>
+
+                                {{formatDate(event.eventDate)}}
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Venue -->
+
+                        <div
+                            class="col-sm-4 col-lg-2"
+                        >
+
+                            <small
+                                class="text-muted d-block mb-1"
+                            >
+
+                                Venue
+
+                            </small>
+
+                            <strong>
+
+                                {{event.venue || '-'}}
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Registered -->
+
+                        <div
+                            class="col-sm-4 col-lg-3"
+                        >
+
+                            <small
+                                class="text-muted d-block mb-1"
+                            >
+
+                                Registered Students
+
+                            </small>
+
+                            <strong
+                                class="text-primary fs-4"
+                            >
+
+                                {{participants.length}}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- LOADING PARTICIPANTS -->
+            <!-- ================================================= -->
+
+            <div
+                class="text-center py-4"
+                ng-if="loadingParticipants"
+            >
+
+                <div
+                    class="spinner-border text-primary"
+                ></div>
+
+                <p
+                    class="text-muted mt-2"
+                >
+
+                    Loading participants...
+
+                </p>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- SUMMARY CARDS -->
+            <!-- ================================================= -->
+
+            <div
+                class="row g-3 mb-4"
+                ng-if="event && !loadingParticipants"
+            >
+
+
+                <!-- TOTAL -->
+
+                <div
+                    class="col-xl-3 col-md-6"
+                >
+
+                    <div
+                        class="card border-0 shadow-sm h-100"
+                        style="border-radius:16px;"
+                    >
+
+                        <div
+                            class="card-body p-4"
+                        >
+
+                            <div
+                                class="d-flex justify-content-between align-items-center"
+                            >
+
+                                <div>
+
+                                    <div
+                                        class="text-muted mb-1"
+                                    >
+
+                                        Total Registered
+
+                                    </div>
+
+                                    <h2
+                                        class="fw-bold mb-0"
+                                    >
+
+                                        {{participants.length}}
+
+                                    </h2>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                        width:48px;
+                                        height:48px;
+                                        border-radius:12px;
+                                        background:#f0eaff;
+                                        color:#7445f5;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                    "
+                                >
+
+                                    <i
+                                        class="fa-solid fa-users"
+                                    ></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRESENT -->
+
+                <div
+                    class="col-xl-3 col-md-6"
+                >
+
+                    <div
+                        class="card border-0 shadow-sm h-100"
+                        style="border-radius:16px;"
+                    >
+
+                        <div
+                            class="card-body p-4"
+                        >
+
+                            <div
+                                class="d-flex justify-content-between align-items-center"
+                            >
+
+                                <div>
+
+                                    <div
+                                        class="text-muted mb-1"
+                                    >
+
+                                        Present
+
+                                    </div>
+
+                                    <h2
+                                        class="fw-bold text-success mb-0"
+                                    >
+
+                                        {{getPresentCount()}}
+
+                                    </h2>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                        width:48px;
+                                        height:48px;
+                                        border-radius:12px;
+                                        background:#e4f7ef;
+                                        color:#119b65;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                    "
+                                >
+
+                                    <i
+                                        class="fa-solid fa-user-check"
+                                    ></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ABSENT -->
+
+                <div
+                    class="col-xl-3 col-md-6"
+                >
+
+                    <div
+                        class="card border-0 shadow-sm h-100"
+                        style="border-radius:16px;"
+                    >
+
+                        <div
+                            class="card-body p-4"
+                        >
+
+                            <div
+                                class="d-flex justify-content-between align-items-center"
+                            >
+
+                                <div>
+
+                                    <div
+                                        class="text-muted mb-1"
+                                    >
+
+                                        Absent
+
+                                    </div>
+
+                                    <h2
+                                        class="fw-bold text-danger mb-0"
+                                    >
+
+                                        {{getAbsentCount()}}
+
+                                    </h2>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                        width:48px;
+                                        height:48px;
+                                        border-radius:12px;
+                                        background:#ffe9e9;
+                                        color:#dc3545;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                    "
+                                >
+
+                                    <i
+                                        class="fa-solid fa-user-xmark"
+                                    ></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PERCENTAGE -->
+
+                <div
+                    class="col-xl-3 col-md-6"
+                >
+
+                    <div
+                        class="card border-0 shadow-sm h-100"
+                        style="border-radius:16px;"
+                    >
+
+                        <div
+                            class="card-body p-4"
+                        >
+
+                            <div
+                                class="d-flex justify-content-between align-items-center"
+                            >
+
+                                <div>
+
+                                    <div
+                                        class="text-muted mb-1"
+                                    >
+
+                                        Attendance %
+
+                                    </div>
+
+                                    <h2
+                                        class="fw-bold text-warning mb-0"
+                                    >
+
+                                        {{getAttendancePercentage()}}%
+
+                                    </h2>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                        width:48px;
+                                        height:48px;
+                                        border-radius:12px;
+                                        background:#fff4df;
+                                        color:#e89a00;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                    "
+                                >
+
+                                    <i
+                                        class="fa-solid fa-chart-pie"
+                                    ></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- ACTION BUTTONS -->
+            <!-- ================================================= -->
+
+            <div
+                class="card border-0 shadow-sm mb-4"
+                ng-if="event && !loadingParticipants"
+                style="border-radius:16px;"
+            >
+
+                <div
+                    class="card-body p-4"
+                >
+
+                    <div
+                        class="d-flex flex-wrap gap-3"
+                    >
+
+                        <!-- SAVE -->
+
+                        <button
+                            type="button"
+                            class="btn btn-primary px-4"
+                            ng-click="saveAttendance()"
+                            ng-disabled="
+                                savingAttendance ||
+                                participants.length === 0
+                            "
+                        >
+
+                            <span
+                                ng-if="savingAttendance"
+                                class="spinner-border spinner-border-sm me-2"
+                            ></span>
+
+                            <i
+                                ng-if="!savingAttendance"
+                                class="fa-solid fa-floppy-disk me-2"
+                            ></i>
+
+                            Save Attendance
+
+                        </button>
+
+
+                        <!-- REGISTERED CSV -->
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary px-4"
+                            ng-click="downloadRegisteredCSV()"
+                            ng-disabled="
+                                participants.length === 0
+                            "
+                        >
+
+                            <i
+                                class="fa-solid fa-download me-2"
+                            ></i>
+
+                            Registered Students CSV
+
+                        </button>
+
+
+                        <!-- PARTICIPATED CSV -->
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-success px-4"
+                            ng-click="downloadParticipatedCSV()"
+                            ng-disabled="
+                                getPresentCount() === 0
+                            "
+                        >
+
+                            <i
+                                class="fa-solid fa-file-csv me-2"
+                            ></i>
+
+                            Participated Students CSV
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+<!-- OD PDF -->
+<!-- ================================================= -->
+
+<div
+    class="card border-0 shadow-sm mb-4"
+    ng-if="event"
+    style="border-radius:16px;"
+>
+
+    <div class="card-body p-4">
+
+        <div
+            class="d-flex flex-wrap align-items-center justify-content-between gap-3"
+        >
+
+            <!-- OD INFORMATION -->
+
+            <div>
+
+                <h5 class="fw-bold mb-1">
+
+                    <i
+                        class="fa-solid fa-file-pdf text-danger me-2"
+                    ></i>
+
+                    OD (On Duty) PDF
+
+                </h5>
+
+                <small class="text-muted">
+
+                    Upload the principal-signed OD document
+                    for this event.
+
+                </small>
+
+            </div>
+
+
+            <!-- OD ACTIONS -->
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <!-- VIEW OD -->
+
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    ng-if="odDocument"
+                    ng-click="openODPdf()"
+                    ng-disabled="loadingOD"
+                >
+
+                    <i
+                        class="fa-solid fa-eye me-2"
+                    ></i>
+
+                    View OD PDF
+
+                </button>
+
+
+                <!-- UPLOAD OD -->
+
+                <label
+                    class="btn btn-outline-danger mb-0"
+                    ng-class="{
+                        'disabled': uploadingOD
+                    }"
+                    style="cursor:pointer;"
+                >
+
+                    <span ng-if="uploadingOD">
+
+                        <span
+                            class="spinner-border spinner-border-sm me-2"
+                        ></span>
+
+                        Uploading...
+
+                    </span>
+
+
+                    <span ng-if="!uploadingOD">
+
+                        <i
+                            class="fa-solid fa-upload me-2"
+                        ></i>
+
+                        {{
+                            odDocument
+                                ? 'Replace OD PDF'
+                                : 'Upload OD PDF'
+                        }}
+
+                    </span>
+
+
+                    <input
+                        type="file"
+                        id="odPdfInput"
+                        accept="application/pdf,.pdf"
+                        style="display:none;"
+                        ng-disabled="uploadingOD"
+                        onchange="
+                            angular
+                                .element(this)
+                                .scope()
+                                .selectODFile(this.files);
+                            this.value='';
+                        "
+                    >
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <!-- NO OD -->
+
+        <div
+            class="mt-3 text-muted"
+            ng-if="
+                !loadingOD &&
+                !odDocument
+            "
+        >
+
+            <i
+                class="fa-solid fa-circle-info me-2"
+            ></i>
+
+            No signed OD PDF has been uploaded yet
+            for this event.
+
+        </div>
+
+
+        <!-- LOADING OD -->
+
+        <div
+            class="mt-3 text-muted"
+            ng-if="loadingOD"
+        >
+
+            <span
+                class="spinner-border spinner-border-sm me-2"
+            ></span>
+
+            Checking OD document...
+
+        </div>
+
+
+        <!-- OD AVAILABLE -->
+
+        <div
+            class="mt-3"
+            ng-if="
+                !loadingOD &&
+                odDocument
+            "
+        >
+
+            <div
+                class="alert alert-success mb-0
+                       d-flex flex-wrap
+                       align-items-center
+                       justify-content-between
+                       gap-2"
+            >
+
+                <div>
+
+                    <i
+                        class="fa-solid fa-circle-check me-2"
+                    ></i>
+
+                    <strong>
+                        Signed OD PDF available
+                    </strong>
+
+                    <div class="small mt-1">
+
+                        File:
+                        {{odDocument.fileName}}
+
+                    </div>
+
+                    <div
+                        class="small"
+                        ng-if="odDocument.uploadedAt"
+                    >
+
+                        Uploaded:
+                        {{formatDate(odDocument.uploadedAt)}}
+
+                    </div>
+
+                </div>
+
+
+                <span class="badge bg-success">
+
+                    Uploaded
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMATION -->
+
+        <div class="mt-3">
+
+            <small class="text-muted">
+
+                <i
+                    class="fa-solid fa-shield-halved me-1"
+                ></i>
+
+                Only students marked
+                <strong>Present</strong>
+                for this event will be allowed
+                to access this OD document.
+
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+            <!-- ================================================= -->
+            <!-- SEARCH -->
+            <!-- ================================================= -->
+
+            <div
+                class="card border-0 shadow-sm mb-3"
+                ng-if="event && !loadingParticipants"
+                style="border-radius:16px;"
+            >
+
+                <div
+                    class="card-body p-3"
+                >
+
+                    <div
+                        class="input-group"
+                    >
+
+                        <span
+                            class="input-group-text bg-white border-end-0"
+                        >
+
+                            <i
+                                class="fa-solid fa-magnifying-glass text-muted"
+                            ></i>
+
+                        </span>
+
+
+                        <input
+                            type="text"
+                            class="form-control border-start-0"
+                            placeholder="Search by name, email or roll number..."
+                            ng-model="searchText"
+                            ng-change="applySearch()"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- REGISTERED STUDENTS TABLE -->
+            <!-- ================================================= -->
+
+            <div
+                class="card border-0 shadow-sm"
+                ng-if="event && !loadingParticipants"
+                style="border-radius:16px;"
+            >
+
+                <div
+                    class="card-body p-0"
+                >
+
+                    <div
+                        class="p-4 border-bottom"
+                    >
+
+                        <h5
+                            class="fw-bold mb-1"
+                        >
+
+                            Registered Students
+
+                        </h5>
+
+                        <small
+                            class="text-muted"
+                        >
+
+                            Update attendance after the event
+
+                        </small>
+
+                    </div>
+
+
+                    <!-- EMPTY -->
+
+                    <div
+                        class="text-center py-5"
+                        ng-if="
+                            filteredParticipants.length === 0
+                        "
+                    >
+
+                        <i
+                            class="fa-solid fa-users-slash fa-3x text-muted mb-3"
+                        ></i>
+
+                        <h5
+                            class="fw-bold"
+                        >
+
+                            No participants found
+
+                        </h5>
+
+                        <p
+                            class="text-muted mb-0"
+                        >
+
+                            Students who register for this event
+                            will appear here.
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- TABLE -->
+
+                    <div
+                        class="table-responsive"
+                        ng-if="
+                            filteredParticipants.length > 0
+                        "
+                    >
+
+                        <table
+                            class="table align-middle mb-0"
+                        >
+
+                            <thead
+                                style="background:#f8f9fb;"
+                            >
+
+                                <tr>
+
+                                    <th
+                                        class="px-3 py-3"
+                                    >
+                                        #
+                                    </th>
+
+                                    <th>
+                                        STUDENT
+                                    </th>
+
+                                    <th>
+                                        ROLL NO
+                                    </th>
+
+                                    <th>
+                                        DEPT
+                                    </th>
+
+                                    <th>
+                                        YEAR
+                                    </th>
+
+                                    <th>
+                                        EMAIL
+                                    </th>
+
+                                    <th>
+                                        PHONE
+                                    </th>
+
+                                    <th>
+                                        REGISTERED AT
+                                    </th>
+
+                                    <th>
+                                        ATTENDANCE
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr
+                                    ng-repeat="
+                                        participant
+                                        in filteredParticipants
+                                    "
+                                >
+
+                                    <!-- NUMBER -->
+
+                                    <td
+                                        class="px-3"
+                                    >
+
+                                        {{$index + 1}}
+
+                                    </td>
+
+
+                                    <!-- STUDENT -->
+
+                                    <td>
+
+                                        <div
+                                            class="d-flex align-items-center"
+                                        >
+
+                                            <div
+                                                style="
+                                                    width:40px;
+                                                    height:40px;
+                                                    border-radius:50%;
+                                                    background:#147cff;
+                                                    color:white;
+                                                    display:flex;
+                                                    align-items:center;
+                                                    justify-content:center;
+                                                    margin-right:10px;
+                                                    font-weight:bold;
+                                                "
+                                            >
+
+                                                {{
+                                                    (
+                                                        participant.studentName ||
+                                                        'S'
+                                                    ).charAt(0)
+                                                    | uppercase
+                                                }}
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <div
+                                                    class="fw-semibold"
+                                                >
+
+                                                    {{participant.studentName}}
+
+                                                </div>
+
+                                                <small
+                                                    class="text-muted"
+                                                >
+
+                                                    {{participant.studentEmail}}
+
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- ROLL -->
+
+                                    <td>
+
+                                        <span
+                                            class="badge"
+                                            style="
+                                                background:#eef0ff;
+                                                color:#4f46e5;
+                                            "
+                                        >
+
+                                            {{participant.rollNumber || '-'}}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- DEPARTMENT -->
+
+                                    <td>
+
+                                        {{participant.studentDept || '-'}}
+
+                                    </td>
+
+
+                                    <!-- YEAR -->
+
+                                    <td>
+
+                                        {{participant.year || '-'}}
+
+                                    </td>
+
+
+                                    <!-- EMAIL -->
+
+                                    <td>
+
+                                        {{participant.studentEmail || '-'}}
+
+                                    </td>
+
+
+                                    <!-- PHONE -->
+
+                                    <td>
+
+                                        {{participant.studentPhone || '-'}}
+
+                                    </td>
+
+
+                                    <!-- REGISTERED -->
+
+                                    <td>
+
+                                        {{
+                                            formatDate(
+                                                participant.registeredAt
+                                            )
+                                        }}
+
+                                    </td>
+
+
+                                    <!-- ATTENDANCE -->
+
+                                    <td
+                                        style="min-width:190px;"
+                                    >
+
+                                        <div
+                                            class="badge rounded-pill w-100 mb-2"
+                                            ng-class="
+                                                getAttendanceClass(
+                                                    participant.attendance
+                                                )
+                                            "
+                                        >
+
+                                            {{
+                                                getAttendanceText(
+                                                    participant.attendance
+                                                )
+                                            }}
+
+                                        </div>
+
+
+                                        <div
+                                            class="btn-group btn-group-sm w-100"
+                                        >
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-success"
+                                                ng-click="
+                                                    updateAttendance(
+                                                        participant,
+                                                        'present'
+                                                    )
+                                                "
+                                                ng-disabled="
+                                                    updatingAttendanceId ===
+                                                    participant._id
+                                                "
+                                            >
+
+                                                <i
+                                                    class="fa-solid fa-check me-1"
+                                                ></i>
+
+                                                Present
+
+                                            </button>
+
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-secondary"
+                                                ng-click="
+                                                    updateAttendance(
+                                                        participant,
+                                                        'absent'
+                                                    )
+                                                "
+                                                ng-disabled="
+                                                    updatingAttendanceId ===
+                                                    participant._id
+                                                "
+                                            >
+
+                                                <i
+                                                    class="fa-solid fa-xmark me-1"
+                                                ></i>
+
+                                                Absent
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- INSTRUCTION -->
+            <!-- ================================================= -->
+
+            <div
+                class="alert alert-light border mt-3"
+                ng-if="
+                    event &&
+                    !loadingParticipants &&
+                    participants.length > 0
+                "
+            >
+
+                <i
+                    class="fa-solid fa-circle-info text-primary me-2"
+                ></i>
+
+                Click
+                <strong>Present / Absent</strong>
+                to update attendance for each student, then click
+                <strong>Save Attendance</strong>
+                to confirm.
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>

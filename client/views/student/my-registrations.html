@@ -1,0 +1,739 @@
+<div class="container-fluid py-4">
+
+    <!-- =================================================
+         PAGE HEADER
+    ================================================== -->
+
+    <div
+        class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4"
+        data-aos="fade-down"
+    >
+
+        <div>
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+
+                <div
+                    class="bg-primary text-white rounded-3 d-flex align-items-center justify-content-center"
+                    style="width: 46px; height: 46px;"
+                >
+                    <i class="fa-solid fa-ticket"></i>
+                </div>
+
+                <h2 class="mb-0 fw-bold">
+                    My Registrations
+                </h2>
+
+            </div>
+
+            <p class="text-muted mb-0">
+                View and manage the events you have registered for.
+            </p>
+
+        </div>
+
+
+        <div class="d-flex gap-2">
+
+            <button
+                type="button"
+                class="btn btn-outline-primary"
+                ng-click="refresh()"
+                ng-disabled="loading"
+            >
+
+                <i
+                    class="fa-solid fa-rotate me-2"
+                    ng-class="{
+                        'fa-spin': loading
+                    }"
+                ></i>
+
+                Refresh
+
+            </button>
+
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                ng-click="browseEvents()"
+            >
+
+                <i class="fa-solid fa-calendar-plus me-2"></i>
+
+                Browse Events
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         SUCCESS MESSAGE
+    ================================================== -->
+
+    <div
+        class="alert alert-success alert-dismissible fade show"
+        ng-if="successMessage"
+        role="alert"
+    >
+
+        <i class="fa-solid fa-circle-check me-2"></i>
+
+        {{ successMessage }}
+
+        <button
+            type="button"
+            class="btn-close"
+            ng-click="successMessage = ''"
+        ></button>
+
+    </div>
+
+
+    <!-- =================================================
+         ERROR MESSAGE
+    ================================================== -->
+
+    <div
+        class="alert alert-danger alert-dismissible fade show"
+        ng-if="errorMessage"
+        role="alert"
+    >
+
+        <i class="fa-solid fa-circle-exclamation me-2"></i>
+
+        {{ errorMessage }}
+
+        <button
+            type="button"
+            class="btn-close"
+            ng-click="errorMessage = ''"
+        ></button>
+
+    </div>
+
+
+    <!-- =================================================
+         LOADING
+    ================================================== -->
+
+    <div
+        class="text-center py-5"
+        ng-if="loading"
+    >
+
+        <div
+            class="spinner-border text-primary mb-3"
+            role="status"
+        ></div>
+
+        <p class="text-muted mb-0">
+            Loading your registrations...
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         REGISTRATION SUMMARY
+    ================================================== -->
+
+    <div
+        class="row g-3 mb-4"
+        ng-if="!loading"
+    >
+
+        <!-- TOTAL -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="d-flex align-items-center justify-content-between"
+                    >
+
+                        <div>
+
+                            <p
+                                class="text-muted mb-1 small"
+                            >
+                                Total Registrations
+                            </p>
+
+                            <h3 class="fw-bold mb-0">
+                                {{ registrations.length }}
+                            </h3>
+
+                        </div>
+
+                        <div
+                            class="bg-primary-subtle text-primary rounded-3 p-3"
+                        >
+
+                            <i
+                                class="fa-solid fa-ticket fa-lg"
+                            ></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- UPCOMING -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="d-flex align-items-center justify-content-between"
+                    >
+
+                        <div>
+
+                            <p
+                                class="text-muted mb-1 small"
+                            >
+                                Upcoming
+                            </p>
+
+                            <h3 class="fw-bold mb-0">
+
+                                {{
+                                    (
+                                        registrations |
+                                        filter:{status:'upcoming'}
+                                    ).length
+                                }}
+
+                            </h3>
+
+                        </div>
+
+                        <div
+                            class="bg-warning-subtle text-warning rounded-3 p-3"
+                        >
+
+                            <i
+                                class="fa-solid fa-clock fa-lg"
+                            ></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ATTENDED -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="d-flex align-items-center justify-content-between"
+                    >
+
+                        <div>
+
+                            <p
+                                class="text-muted mb-1 small"
+                            >
+                                Attended
+                            </p>
+
+                            <h3 class="fw-bold mb-0">
+
+                                {{
+                                    (
+                                        registrations |
+                                        filter:{status:'attended'}
+                                    ).length
+                                }}
+
+                            </h3>
+
+                        </div>
+
+                        <div
+                            class="bg-success-subtle text-success rounded-3 p-3"
+                        >
+
+                            <i
+                                class="fa-solid fa-circle-check fa-lg"
+                            ></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         EMPTY STATE
+    ================================================== -->
+
+    <div
+        class="card border-0 shadow-sm"
+        ng-if="!loading && registrations.length === 0"
+        data-aos="fade-up"
+    >
+
+        <div class="card-body text-center py-5">
+
+            <div
+                class="mx-auto mb-4 bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 90px; height: 90px;"
+            >
+
+                <i
+                    class="fa-solid fa-ticket fa-2x"
+                ></i>
+
+            </div>
+
+            <h4 class="fw-bold mb-2">
+                No registrations yet
+            </h4>
+
+            <p
+                class="text-muted mx-auto mb-4"
+                style="max-width: 500px;"
+            >
+                You have not registered for any events yet.
+                Explore available events and register for the
+                ones you are interested in.
+            </p>
+
+            <button
+                type="button"
+                class="btn btn-primary px-4"
+                ng-click="browseEvents()"
+            >
+
+                <i
+                    class="fa-solid fa-calendar-days me-2"
+                ></i>
+
+                Explore Events
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         REGISTRATION LIST
+    ================================================== -->
+
+    <div
+        ng-if="!loading && registrations.length > 0"
+    >
+
+        <div
+            class="card border-0 shadow-sm mb-3"
+            ng-repeat="registration in registrations track by registration._id"
+            data-aos="fade-up"
+        >
+
+            <div class="card-body p-4">
+
+                <div class="row g-4 align-items-center">
+
+
+                    <!-- =================================================
+                         EVENT ICON
+                    ================================================== -->
+
+                    <div class="col-auto">
+
+                        <div
+                            class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center"
+                            style="width: 64px; height: 64px;"
+                        >
+
+                            <i
+                                class="fa-solid fa-calendar-check fa-xl"
+                            ></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         EVENT INFORMATION
+                    ================================================== -->
+
+                    <div class="col">
+
+                        <div
+                            class="d-flex flex-wrap align-items-center gap-2 mb-2"
+                        >
+
+                            <h5
+                                class="fw-bold mb-0"
+                            >
+                                {{ registration.eventTitle }}
+                            </h5>
+
+
+                            <!-- STATUS -->
+
+                            <span
+                                class="badge rounded-pill px-3 py-2"
+                                ng-class="getStatusClass(registration.status)"
+                            >
+
+                                {{ getStatusText(registration.status) }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="text-muted small mb-3"
+                        >
+
+                            <i
+                                class="fa-solid fa-hashtag me-1"
+                            ></i>
+
+                            Registration ID:
+
+                            <strong>
+                                {{ registration.registrationId }}
+                            </strong>
+
+                        </div>
+
+
+                        <div
+                            class="row g-2 text-muted small"
+                        >
+
+                            <!-- DATE -->
+
+                            <div class="col-sm-6 col-lg-3">
+
+                                <i
+                                    class="fa-regular fa-calendar me-2 text-primary"
+                                ></i>
+
+                                {{ formatDate(registration.eventDate) }}
+
+                            </div>
+
+
+                            <!-- TIME -->
+
+                            <div class="col-sm-6 col-lg-3">
+
+                                <i
+                                    class="fa-regular fa-clock me-2 text-primary"
+                                ></i>
+
+                                {{ formatTime(registration.eventTime) }}
+
+                            </div>
+
+
+                            <!-- VENUE -->
+
+                            <div class="col-sm-6 col-lg-3">
+
+                                <i
+                                    class="fa-solid fa-location-dot me-2 text-primary"
+                                ></i>
+
+                                {{ registration.venue || '-' }}
+
+                            </div>
+
+
+                            <!-- DEPARTMENT -->
+
+                            <div class="col-sm-6 col-lg-3">
+
+                                <i
+                                    class="fa-solid fa-building me-2 text-primary"
+                                ></i>
+
+                                {{ registration.studentDept || '-' }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         ATTENDANCE
+                    ================================================== -->
+
+                    <div class="col-md-auto">
+
+                        <div class="text-md-end">
+
+                            <div
+                                class="small text-muted mb-1"
+                            >
+                                Attendance
+                            </div>
+
+                            <span
+                                class="badge rounded-pill px-3 py-2"
+                                ng-class="getAttendanceClass(registration.attendance)"
+                            >
+
+                                <i
+                                    class="fa-solid"
+                                    ng-class="{
+                                        'fa-circle-check':
+                                            registration.attendance === 'present',
+                                        'fa-circle-xmark':
+                                            registration.attendance !== 'present'
+                                    }"
+                                ></i>
+
+                                <span class="ms-1">
+                                    {{ getAttendanceText(registration.attendance) }}
+                                </span>
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         OD STATUS
+                    ================================================== -->
+
+                    <div class="col-md-auto">
+
+                        <div class="text-md-end">
+
+                            <div
+                                class="small text-muted mb-1"
+                            >
+                                OD Status
+                            </div>
+
+
+                            <!-- STUDENT IS PRESENT -->
+
+                            <span
+                                ng-if="registration.attendance === 'present'"
+                                class="badge rounded-pill px-3 py-2 bg-success-subtle text-success"
+                            >
+
+                                <i
+                                    class="fa-solid fa-file-circle-check me-1"
+                                ></i>
+
+                                Eligible for OD
+
+                            </span>
+
+
+                            <!-- STUDENT IS ABSENT -->
+
+                            <span
+                                ng-if="registration.attendance !== 'present'"
+                                class="badge rounded-pill px-3 py-2 bg-secondary-subtle text-secondary"
+                            >
+
+                                <i
+                                    class="fa-solid fa-file-circle-xmark me-1"
+                                ></i>
+
+                                Not eligible
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         ACTIONS
+                    ================================================== -->
+
+                    <div class="col-md-auto">
+
+                        <div
+                            class="d-flex flex-wrap gap-2 justify-content-md-end"
+                        >
+
+                            <!-- VIEW EVENT -->
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-primary btn-sm"
+                                ng-click="viewEvent(registration)"
+                            >
+
+                                <i
+                                    class="fa-solid fa-eye me-1"
+                                ></i>
+
+                                View Event
+
+                            </button>
+
+
+                            <!-- VIEW OD PDF
+                                 Only visible for PRESENT students
+                                 and when an OD is available.
+                            -->
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-success btn-sm"
+                                ng-if="
+                                    registration.attendance === 'present' &&
+                                    registration.odAvailable
+                                "
+                                ng-click="viewOD(registration)"
+                                ng-disabled="
+                                    viewingODId === registration._id
+                                "
+                            >
+
+                                <span
+                                    ng-if="viewingODId === registration._id"
+                                >
+
+                                    <span
+                                        class="spinner-border spinner-border-sm me-1"
+                                        role="status"
+                                    ></span>
+
+                                    Opening...
+
+                                </span>
+
+
+                                <span
+                                    ng-if="viewingODId !== registration._id"
+                                >
+
+                                    <i
+                                        class="fa-solid fa-file-pdf me-1"
+                                    ></i>
+
+                                    View OD PDF
+
+                                </span>
+
+                            </button>
+
+
+                            <!-- OD NOT YET UPLOADED -->
+
+                            <span
+                                ng-if="
+                                    registration.attendance === 'present' &&
+                                    !registration.odAvailable
+                                "
+                                class="btn btn-outline-secondary btn-sm disabled"
+                            >
+
+                                <i
+                                    class="fa-solid fa-clock me-1"
+                                ></i>
+
+                                OD Pending
+
+                            </span>
+
+
+                            <!-- CANCEL -->
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger btn-sm"
+                                ng-if="canCancel(registration)"
+                                ng-click="cancelRegistration(registration)"
+                                ng-disabled="
+                                    cancellingId === registration._id
+                                "
+                            >
+
+                                <span
+                                    ng-if="cancellingId === registration._id"
+                                >
+
+                                    <span
+                                        class="spinner-border spinner-border-sm me-1"
+                                        role="status"
+                                    ></span>
+
+                                    Cancelling...
+
+                                </span>
+
+
+                                <span
+                                    ng-if="cancellingId !== registration._id"
+                                >
+
+                                    <i
+                                        class="fa-solid fa-xmark me-1"
+                                    ></i>
+
+                                    Cancel
+
+                                </span>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
